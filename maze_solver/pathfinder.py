@@ -1,21 +1,61 @@
-"""
-
-1. Mark start point as visited and push it to path
-2. Start path search loop
-3. Return path array, which is empty if there is no solution
-
-Path search loop:
-1. If current cell is an exit cell, STOP
-2. Get neighboring empty and non-visited cells of current cell
-3. Branch based on neighboring cells
-  a. One or more neighboring cells: move to first cell, add to visited cells and path, GOTO 1
-  b. No neighboring cells: Remove latest element from path and set it as current cell, GOTO 1
-  c. No neighboring cells, and path array is empty: STOP
-
-"""
-
 from maze_solver.data_structures import Grid, Point
 
 
-def find_shortest_path(start_point: Point, end_points: 'list[Point]', grid: Grid) -> 'list[Point]':
-    pass
+def find_shortest_path_to_closest_exit(start_point: Point, exit_points: 'list[Point]', grid: Grid, max_path_length: int) -> 'list[Point]':
+    """
+    Finds the shortest paths from start point to all given exit points, and selects the shortest of these paths.
+    """
+    if len(exit_points) == 0:
+        raise ValueError(exit_points)
+
+    chosen_path = None
+    for exit_point in exit_points:
+        path = find_shortest_path(start_point, exit_point, grid, max_path_length)
+        if chosen_path == None or len(path) < len(chosen_path):
+            chosen_path = path
+
+    return chosen_path
+
+
+def find_shortest_path(start_point: Point, end_point: Point, grid: Grid, max_path_length: int) -> 'list[Point]':
+    """
+    Finds the shortest path from given start point in grid to given end point.
+
+    Returns an empty path if there is no solution, or if solution is longer than max_path_length.
+    """
+
+    # Keep track on currently built path and cells that have been visited
+    path = []
+    visited_cells = {}
+
+    # Initial cell is the starting point, mark it as visited and push it to path
+    current_cell = start_point
+    path.append(current_cell)
+    visited_cells[current_cell] = True
+
+    keep_moving = True
+    while keep_moving:
+        if current_cell == end_point:
+            keep_moving = False
+            continue
+
+        # Get passable non-visited neighboring cells
+        neighbors = tuple(filter(
+            lambda neighbor: neighbor not in visited_cells, grid.get_passable_neighbor_cells(current_cell)))
+
+        if len(neighbors) > 0:
+            # Move to first non-visited neighbor
+            current_cell = neighbors[0]
+            path.append(current_cell)
+            visited_cells[current_cell] = True
+        elif len(path) > 0:
+            # Move back one cell in path
+            current_cell = path.pop()
+        else:
+            # No passable non-visited neighbors and path is empty means there is no solution
+            keep_moving = False
+
+    if len(path) > max_path_length:
+        return []
+
+    return path
