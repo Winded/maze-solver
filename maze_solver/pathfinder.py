@@ -14,5 +14,8 @@ Path search loop:
 
 """
 
-def find_shortest_path(start_point, end_points, grid):
+from maze_solver.data_structures import Grid, Point
+
+
+def find_shortest_path(start_point: Point, end_points: 'list[Point]', grid: Grid) -> 'list[Point]':
     pass
