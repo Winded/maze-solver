@@ -43,8 +43,9 @@ is invalid.
 On successful execution, the program will print a solution for each start
 point in the standard output.
 
-The calculated path is represented with arrow body characters `|` and `-`.
-The arrow head is represented as `>` and `^`. To avoid confusion, the starting
+The calculated path is represented with arrow-like characters to display the path.
+`^` is up, `V` is down, `<` is left and `>` is right.
+To avoid confusion, the starting
 point is represented by `S` instead of `^` on the solution output.
 
 ## Program design

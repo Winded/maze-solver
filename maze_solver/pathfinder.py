@@ -1,4 +1,16 @@
-from maze_solver.data_structures import Grid, Point
+from maze_solver.data_structures import Grid, Maze, Point
+
+
+def find_shortest_paths_for_maze(maze: Maze, max_path_length: int) -> 'list[list[Point]]':
+    """
+    Finds the shortest exit paths for each start point in the given maze.
+    """
+    
+    result_paths = []
+    for start_point in maze.start_points:
+        result_paths.append(find_shortest_path_to_closest_exit(start_point, maze.end_points, maze.grid, max_path_length))
+    
+    return result_paths
 
 
 def find_shortest_path_to_closest_exit(start_point: Point, exit_points: 'list[Point]', grid: Grid, max_path_length: int) -> 'list[Point]':

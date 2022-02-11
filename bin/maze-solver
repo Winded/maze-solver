@@ -1,10 +1,24 @@
 #!/usr/bin/python3
 
-"""
 
+import argparse
+import maze_solver.text_format as text_format
+import maze_solver.pathfinder as pathfinder
 
-
-"""
 
 if __name__ == "__main__":
-    print("Hello world!")
+    parser = argparse.ArgumentParser('maze-solver', description='Text-based maze solving program')
+    parser.add_argument('input_file', type=str)
+
+    args = parser.parse_args()
+
+    # Read string from input file
+    input = ''
+    with open(args.input_file) as f:
+        input = f.read()
+    
+    maze = text_format.parse(input)
+    paths = pathfinder.find_shortest_paths_for_maze(maze, 200)
+    
+    for path in paths:
+        print(text_format.render(maze.grid, path))

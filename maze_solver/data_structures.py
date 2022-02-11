@@ -1,6 +1,4 @@
-from argparse import ArgumentError
 from collections import namedtuple
-from decimal import InvalidOperation
 
 
 class GridDimensionsError(Exception):
@@ -11,7 +9,7 @@ class InvalidPointError(Exception):
     pass
 
 
-class Point(namedtuple('Point', ['x', 'y'])):
+class Point(namedtuple('Point', ['x', 'y'], defaults=[0, 0])):
     """
     Point is a two-dimensional vector referencing a cell in the maze grid.
     """
@@ -85,3 +83,27 @@ class Grid:
 
         # Then filter coordinates that are out-of-bounds or impassable
         return tuple(filter(lambda neighbor: self.is_point_in_grid(neighbor) and self.is_passable(neighbor), neighbors))
+
+class Maze:
+    """
+    Maze class contains a Grid, and two arrays of Points referring to start points and exit points.
+
+    A single maze input string can be internally represented by the Maze class.
+    """
+    
+    def __init__(self, grid: Grid, start_points: 'list[Point]', end_points: 'list[Point]'):
+        self._grid  = grid
+        self._start_points = start_points
+        self._end_points = end_points
+
+    @property
+    def grid(self) -> Grid:
+        return self._grid
+
+    @property
+    def start_points(self) -> 'list[Point]':
+        return self._start_points
+
+    @property
+    def end_points(self) -> 'list[Point]':
+        return self._end_points
