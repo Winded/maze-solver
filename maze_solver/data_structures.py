@@ -71,14 +71,10 @@ class Grid:
 
         # Calculate neighboring coordinates
         neighbors = (
-            Point(cell.x - 1, cell.y - 1),
             Point(cell.x, cell.y - 1),
-            Point(cell.x + 1, cell.y - 1),
-            Point(cell.x - 1, cell.y),
             Point(cell.x + 1, cell.y),
-            Point(cell.x - 1, cell.y + 1),
             Point(cell.x, cell.y + 1),
-            Point(cell.x + 1, cell.y + 1),
+            Point(cell.x - 1, cell.y),
         )
 
         # Then filter coordinates that are out-of-bounds or impassable

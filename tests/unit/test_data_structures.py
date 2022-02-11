@@ -46,7 +46,6 @@ class TestGrid(unittest.TestCase):
 
     def test_get_passable_neighbor_cells(self):
         self.assertEqual(self.grid.get_passable_neighbor_cells(Point(0, 8)), (
-            Point(0, 7), Point(1, 7),
+            Point(0, 7),
             Point(1, 8),
-            Point(1, 9),
         ))
