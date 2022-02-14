@@ -1,3 +1,4 @@
+import sys
 from maze_solver.data_structures import Grid, Maze, Point
 
 
@@ -36,35 +37,68 @@ def find_shortest_path(start_point: Point, end_point: Point, grid: Grid) -> 'lis
     Returns an empty path if there is no solution.
     """
 
-    # Keep track on currently built path and cells that have been visited
-    path = []
-    visited_cells = {}
+    def reconstruct_path(came_from: 'dict[Point, Point]', current: Point) -> 'list[Point]':
+        path = [current]
+        while current in came_from:
+            current = came_from[current]
+            path.insert(0, current)
+        return path
 
-    # Initial cell is the starting point, mark it as visited and push it to path
-    current_cell = start_point
-    path.append(current_cell)
-    visited_cells[current_cell] = True
+    def heuristic(point: Point):
+        return abs(end_point.x - point.x) + abs(end_point.y - point.y)
 
-    keep_moving = True
-    while keep_moving:
+    # Dictionary of Point -> bool, representing currently discovered passable cells
+    # which we want to travel to. start_point is discovered by default
+    open_set = {
+        start_point: True,
+    }
+    # A mapping of Point in the current cheapest path to the previous Point preceding it
+    came_from = {}
+
+    # Dictionary of Point -> int
+    # Cost of the currently known shortest path from start point to key cell
+    # If cell is not in dict, the cost for that cell should be considered infinite
+    g_score = {
+        start_point: 0,
+    }
+    # Dictionary of Point -> int
+    # Estimated cost of path if it goes through the given cell
+    # Calculated as f_score[n] = g_score[n] + heuristic(n)
+    f_score = {
+        start_point: heuristic(start_point)
+    }
+
+    # Loop until open_set is empty
+    while open_set:
+        # Find current cell, which is the cell with the lowest f_score in the open set
+        current_cell = None
+        current_score = sys.maxsize
+        for cell in open_set:
+            if f_score[cell] < current_score:
+                current_cell = cell
+                current_score = f_score[cell]
+
+        # If current cell is the same as end point, we have solved the maze
+        # Reconstruct the path by walking through came_from dictionary, startin with current cell
         if current_cell == end_point:
-            keep_moving = False
-            continue
+            return reconstruct_path(came_from, current_cell)
 
-        # Get passable non-visited neighboring cells
-        neighbors = tuple(filter(
-            lambda neighbor: neighbor not in visited_cells, grid.get_passable_neighbor_cells(current_cell)))
+        # Remove current cell from open set
+        open_set.pop(current_cell)
 
-        if len(neighbors) > 0:
-            # Move to first non-visited neighbor
-            current_cell = neighbors[0]
-            path.append(current_cell)
-            visited_cells[current_cell] = True
-        elif len(path) > 0:
-            # Move back one cell in path
-            current_cell = path.pop()
-        else:
-            # No passable non-visited neighbors and path is empty means there is no solution
-            keep_moving = False
+        neighbors = grid.get_passable_neighbor_cells(current_cell)
+        for neighbor in neighbors:
+            # Tentative gscore is the cost of moving from start cell to current cell through this neighboring cell
+            # The cost of moving to a neighboring cell is 1
+            tentative_gscore = g_score[current_cell] + 1 if current_cell in g_score else sys.maxsize
+            if tentative_gscore < (g_score[neighbor] if neighbor in g_score else sys.maxsize):
+                # This path is lower-cost than the currently cheapest path to neighbor.
+                # Override this as the cheapest path
+                came_from[neighbor] = current_cell
+                g_score[neighbor] = tentative_gscore
+                f_score[neighbor] = tentative_gscore + heuristic(neighbor)
+                if neighbor not in open_set:
+                    open_set[neighbor] = True
 
-    return path
+    # open_set is empty but end point was never reached: there is no solution
+    return []

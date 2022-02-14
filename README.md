@@ -85,7 +85,7 @@ point is represented by `S` instead of `^` on the solution output.
 
 ## Algorithm
 
-The program uses an algorithm inspired by Trémaux's algorithm. Instead of following already-marked paths (i.e. cells), the algorithm never enters
-a cell twice.
+Previously, the program used an algorithm inspired by Trémaux's algorithm. Instead of following already-marked paths (i.e. cells),
+the algorithm never enters a cell twice. This algorithm was not very efficient, but it is a relatively simple one.
 
-This algorithm is not very efficient, but it is a relatively simple one.
+I updated the algorithm to A* pathfinding, which was much more effective in finding the shortest path to exit.
