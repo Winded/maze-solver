@@ -103,3 +103,22 @@ class Maze:
     @property
     def end_points(self) -> 'list[Point]':
         return self._end_points
+
+class SolvedMaze:
+    """
+    SolvedMaze contains a Maze, and a list of paths (each being a list of Points).
+
+    Paths should contain one solution for each start point in the maze.
+    """
+
+    def __init__(self, maze: Maze, paths: 'list[list[Point]]') -> None:
+        self._maze = maze
+        self._paths = paths
+
+    @property
+    def maze(self) -> Maze:
+        return self._maze
+
+    @property
+    def paths(self) -> 'list[list[Point]]':
+        return self._paths

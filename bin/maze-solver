@@ -2,8 +2,7 @@
 
 
 import argparse
-import maze_solver.text_format as text_format
-import maze_solver.pathfinder as pathfinder
+import maze_solver
 
 
 if __name__ == "__main__":
@@ -17,9 +16,6 @@ if __name__ == "__main__":
     with open(args.input_file) as f:
         input = f.read()
     
-    maze = text_format.parse(input)
-    paths = pathfinder.find_shortest_paths_for_maze(maze, 200)
-    
-    for path in paths:
-        print(text_format.render(maze.grid, path))
-        print('Total Moves: %i\n' % len(path))
+    result = maze_solver.solve(input, 200)
+
+    maze_solver.print_solutions(result)
