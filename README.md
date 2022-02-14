@@ -48,7 +48,9 @@ The calculated path is represented with arrow-like characters to display the pat
 To avoid confusion, the starting
 point is represented by `S` instead of `^` on the solution output.
 
-## Program design
+## Algorithm
 
-Data structures and the path-finding algorithm are explained in code with line
-comments.
+The program uses an algorithm inspired by Trémaux's algorithm. Instead of following already-marked paths (i.e. cells), the algorithm never enters
+a cell twice.
+
+This algorithm is not very efficient, but it is a relatively simple one.
