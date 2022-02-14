@@ -1,11 +1,26 @@
 # Maze solver
 
 This Python application can solve a maze provided by the input text file.
-Python 3 is recommended; the application has not been tested with Python 2.7.
+Python 3.5 or higher is recommended. The application has been tested with Python 3.7.
 
-## Installing and testing
+## Running tests
 
-TODO
+You can run tests using the `unittest` module.
+
+```sh
+cd path-to-project/
+python -m unittest discover -s tests/
+```
+
+## Installing
+
+```sh
+cd path-to-project/
+pip install .
+```
+
+After installation, `maze-solver` script is in your PATH environment and you
+can call the script from anywhere.
 
 ## Usage
 
@@ -19,7 +34,27 @@ maze-solver input.txt
 A successfully solved path will be printed out like this:
 
 ```
-TODO
+#######E######## ####################
+# ### #^<<###### #    #     #     #  
+# ### ###^#      #  #    #     #    #
+# ### # #^# ###### ##################
+# >>> > >^   #       #    #   #   # #
+#^ # ##      # ##### #  # # # # # # #
+#^ #         #   #   #  # # # # #   #
+#^ ######   ###  #  ### # # # # ### #
+#^ #    #               #   #   #   #
+#^ # ## ########   ## ###########   #
+#^   ##          ###                #
+#^## #############  ###   ####   ## #
+#^<### ##V<<<<<V  #  #  #           #
+# ^#   ##V####^V^  #    #      ###  #
+# ^# ####V#>V#^V^  #    #####       #
+# ^#     V#^>V^V^###           ##   #
+# ^##### >>^ V^V^V<#   ##   #   #   #
+# ^<<<<< <<< <^<^<^                 #
+##################S##################
+
+Total Moves: 74
 ```
 
 ## Maze file format
