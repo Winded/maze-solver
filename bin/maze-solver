@@ -16,6 +16,6 @@ if __name__ == "__main__":
     with open(args.input_file) as f:
         input = f.read()
     
-    result = maze_solver.solve(input, 200)
+    result = maze_solver.solve(input)
 
     maze_solver.print_solutions(result)

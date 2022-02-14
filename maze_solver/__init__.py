@@ -1,18 +1,15 @@
 from maze_solver.data_structures import SolvedMaze
 from . import text_format, pathfinder
 
-def solve(maze_input: str, max_path_length: int = 200) -> SolvedMaze:
+
+def solve(maze_input: str) -> SolvedMaze:
     """
     Parse the given input maze string and find the shortest paths for the closest exit point
     for each entry point.
-
-    max_path_length determines the maximum amount of moves that can be made when resolving a path.
-    If the resulting path gets any longer than this value, an empty path (meaning: no solution)
-    will be returned.
     """
 
     maze = text_format.parse(maze_input)
-    paths = pathfinder.find_shortest_paths_for_maze(maze, max_path_length)
+    paths = pathfinder.find_shortest_paths_for_maze(maze)
 
     return SolvedMaze(maze, paths)
 

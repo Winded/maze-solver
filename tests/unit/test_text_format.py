@@ -45,10 +45,3 @@ class TestParse(unittest.TestCase):
     def test_parse_invalid_inputs(self):
         for invalid_input in invalid_inputs:
             self.assertRaises(text_format.ParseError, lambda: text_format.parse(invalid_input))
-
-
-class TestRender(unittest.TestCase):
-    """
-    Unit test cases for function: text_format.render
-    """
-    pass

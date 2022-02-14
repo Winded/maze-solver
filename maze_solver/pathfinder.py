@@ -1,19 +1,19 @@
 from maze_solver.data_structures import Grid, Maze, Point
 
 
-def find_shortest_paths_for_maze(maze: Maze, max_path_length: int) -> 'list[list[Point]]':
+def find_shortest_paths_for_maze(maze: Maze) -> 'list[list[Point]]':
     """
     Finds the shortest exit paths for each start point in the given maze.
     """
     
     result_paths = []
     for start_point in maze.start_points:
-        result_paths.append(find_shortest_path_to_closest_exit(start_point, maze.end_points, maze.grid, max_path_length))
+        result_paths.append(find_shortest_path_to_closest_exit(start_point, maze.end_points, maze.grid))
     
     return result_paths
 
 
-def find_shortest_path_to_closest_exit(start_point: Point, exit_points: 'list[Point]', grid: Grid, max_path_length: int) -> 'list[Point]':
+def find_shortest_path_to_closest_exit(start_point: Point, exit_points: 'list[Point]', grid: Grid) -> 'list[Point]':
     """
     Finds the shortest paths from start point to all given exit points, and selects the shortest of these paths.
     """
@@ -22,18 +22,18 @@ def find_shortest_path_to_closest_exit(start_point: Point, exit_points: 'list[Po
 
     chosen_path = None
     for exit_point in exit_points:
-        path = find_shortest_path(start_point, exit_point, grid, max_path_length)
+        path = find_shortest_path(start_point, exit_point, grid)
         if chosen_path == None or len(path) < len(chosen_path):
             chosen_path = path
 
     return chosen_path
 
 
-def find_shortest_path(start_point: Point, end_point: Point, grid: Grid, max_path_length: int) -> 'list[Point]':
+def find_shortest_path(start_point: Point, end_point: Point, grid: Grid) -> 'list[Point]':
     """
     Finds the shortest path from given start point in grid to given end point.
 
-    Returns an empty path if there is no solution, or if solution is longer than max_path_length.
+    Returns an empty path if there is no solution.
     """
 
     # Keep track on currently built path and cells that have been visited
@@ -66,8 +66,5 @@ def find_shortest_path(start_point: Point, end_point: Point, grid: Grid, max_pat
         else:
             # No passable non-visited neighbors and path is empty means there is no solution
             keep_moving = False
-
-    if len(path) > max_path_length:
-        return []
 
     return path
