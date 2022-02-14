@@ -43,3 +43,12 @@ class TestFindShortestPath(unittest.TestCase):
         start_point = Point(5, 0)
         end_point = Point(5, 5)
         self.perform_path_test(start_point, end_point, grid, 200, False)
+
+        # Test a grid where there is a diagonal line accross the center
+        passability = [True] * 100
+        for x in range(0, 10):
+            passability[x * 10 + x] = False
+        grid = Grid(10, 10, passability)
+        start_point = Point(5, 0)
+        end_point = Point(5, 7)
+        self.perform_path_test(start_point, end_point, grid, 200, False)
